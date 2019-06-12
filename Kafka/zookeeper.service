@@ -1,0 +1,17 @@
+[Unit]
+Description=Zookeeper service
+
+[Service]
+Type=forking
+WorkingDirectory=/usr/local/zookeeper-3.4.14
+ExecStart=/usr/local/zookeeper-3.4.14/bin/zkServer.sh start
+ExecStop=/usr/local/zookeeper-3.4.14/bin/zkServer.sh stop
+ExecReload=/usr/local/zookeeper-3.4.14/bin/zkServer.sh restart
+Restart=no
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+User=root
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
