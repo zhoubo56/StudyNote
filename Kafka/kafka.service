@@ -3,14 +3,16 @@ Description=Kafka service
 After=network.target zookeeper.service
 
 [Service]
-Type=forking
-WorkingDirectory=/usr/local/kafka_2.12-2.2.0
+Type=simple
+#WorkingDirectory=/usr/local/kafka_2.12-2.2.0
 ExecStart=/usr/local/kafka_2.12-2.2.0/bin/kafka-server-start.sh /usr/local/kafka_2.12-2.2.0/config/server.properties
-Restart=no
-# Restart service after 10 seconds if the dotnet service crashes:
-RestartSec=10
+ExecStop=/usr/local/kafka_2.12-2.2.0/bin/kafka-server-stop.sh
+#ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-abnormal
+#RestartSec=10s
 User=root
-Restart=on-failure
+Group=root
 
 [Install]
 WantedBy=multi-user.target
