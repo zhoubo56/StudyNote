@@ -1,12 +1,12 @@
 
 **RabbitMq**
-docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 15672:15672 -p 5672:5672 -p 25672:25672 -p 61613:61613 -p 1883:1883 rabbitmq:management
+docker run -d --hostname rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 15672:15672 -p 5672:5672 -p 25672:25672 -p 61613:61613 -p 1883:1883 rabbitmq:management
 
 **Rancher**
 docker run --name rancher -d --restart=unless-stopped -p 18180:8080 rancher/server
 
 docker run -d --restart=unless-stopped \
--p 38180:80 -p 443:443 \
+-p 80:80 -p 443:443 \
 -v /var/lib/rancher/:/var/lib/rancher/ \
 -v /root/var/log/auditlog:/var/log/auditlog \
 -e AUDIT_LEVEL=3 \
@@ -32,6 +32,9 @@ docker run --name mongo -d -p 27017:27017 mongo:3.4
 **SqlServer**
 docker run -d --name mssql -e ACCEPT_EULA=Y -e SA_PASSWORD=Pass@word -p 5433:1433 mcr.microsoft.com/mssql/server:2017-latest
 
+
+**ElasticSearch**
+docker run -d --name elsticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:6.5.4
 
 
 **解决访问私有仓库问题**
