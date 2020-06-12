@@ -7,12 +7,14 @@ metadata:
 spec:
   containers:
   - name: init-container
-    image: busybox
+    image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/busybox:v1
     command: ['sh', '-c', 'echo The app is running! && sleep 3600']
   initContainers:
   - name: init-myservice
-    image: busybox
+    image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/busybox:v1
     command: ['sh', '-c', 'until nslookup init-c-myservice; do echo waiting for init-c-myservice; sleep 2; done;']
   - name: init-mydb
-    image: busybox
+    image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/busybox:v1
     command: ['sh', '-c', 'until nslookup init-c-mydb; do echo waiting for init-c-mydb; sleep 2; done;']
+  imagePullSecrets:
+    - name: ali-zhoubo
