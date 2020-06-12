@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-interface
+  namespace: default
+  labels:
+    app: user-interface
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-interface
+  template:
+    metadata:
+      labels:
+        app: user-interface
+      name: user-interface
+    spec:
+      containers:
+         - image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/user-interface:1.0.0
+           imagePullPolicy: IfNotPresent
+           name: user-interface
+           ports:
+           - containerPort: 80
+             name: http
+           env:
+           - name: PORT
+             value: "80"
+      imagePullSecrets:
+        - name: ali-zhoubo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-interface
+  namespace: default
+  labels:
+    app: user-interface
+spec:
+  ports:
+    - port: 80
+      name: http
+      nodePort: 31080
+      protocol: TCP
+  selector:
+    app: user-interface
+  type: NodePort
