@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lifecycle-pod
+spec:
+  containers:
+  - name: lifecycle-container
+    image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/busybox:v1
+    imagePullPolicy: IfNotPresent
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+    lifecycle:
+      postStart:
+        exec:
+          command: ['sh', '-c', 'echo Hello from the poststart handler > /tmp/message']
+      preStop:
+        exec:
+          command: ['sh', '-c', 'echo Hello from the prestop handler > /tmp/message']
+  imagePullSecrets:
+    - name: ali-zhoubo
