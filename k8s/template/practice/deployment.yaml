@@ -10,9 +10,9 @@ spec:
       app: nginx-deployment
   template:
     metadata:
+      name: nginx-deployment-template
       labels:
         app: nginx-deployment
-      name: nginx-deployment-template
     spec:
       containers:
         - name: nginx-deployment-container

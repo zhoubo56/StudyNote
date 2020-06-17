@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi-job
+spec:
+  template:
+    metadata:
+      name: pi-template
+    spec:
+      containers:
+      - name: pi-container
+        image: perl:slim-stretch
+        command: ['perl', '-Mbignum=bpi', '-wle', 'print bpi(100)']
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Never

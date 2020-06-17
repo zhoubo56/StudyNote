@@ -1,0 +1,20 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello-cron-job
+spec:
+  schedule: '*/1 * * * *'
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: hello-template
+        spec:
+          containers:
+          - name: hello-container
+            image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/busybox:v1
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the k8s cluster
+          restartPolicy: OnFailure
