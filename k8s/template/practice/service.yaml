@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service-service
+  namespace: default
+  labels:
+    app: nginx-service
+spec:
+  ports:
+    - port: 80
+      name: http
+      protocol: TCP
+  selector:
+    app: nginx-service
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-service-deployment
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-service
+  template:
+    metadata:
+      name: nginx-service-template
+      labels:
+        app: nginx-service
+    spec:
+      containers:
+        - name: nginx-service-container
+          image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/myapp:v1
+          imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: ali-zhoubo
