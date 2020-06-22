@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deploy
+  namespace: gray-release
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      name: myapp-template
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp-container
+          image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/myapp:v2
+          imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: ali-zhoubo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-svc
+  namespace: gray-release
+  labels:
+    app: myapp
+spec:
+  ports:
+    - port: 80
+      name: http
+      protocol: TCP
+  selector:
+    app: myapp
+  type: ClusterIP
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: gray-myapp-svc
+spec:
+  type: ExternalName
+  externalName: myapp-svc.gray-release.svc.cluster.local
