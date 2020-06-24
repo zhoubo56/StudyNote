@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: myapp-v2
 spec:
+  tls:
+    - hosts:
+      - v2.zhoubo.com
+      secretName: tls-secret
   rules:
     - host: v2.zhoubo.com
       http:
