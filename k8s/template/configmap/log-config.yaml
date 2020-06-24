@@ -1,8 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: special-config
+  name: log-config
   namespace: default
 data:
-  special.level: very
-  special.type: charm
+  log_level: INFO

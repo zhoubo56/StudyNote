@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-pod
+spec:
+  containers:
+    - name: env-container
+      image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/busybox:v1
+      command: ['sh', '-c', 'env']
+      env:
+        - name: SPECIAL_LEVEL_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: special-config
+              key: special.level
+        - name: SPECIAL_TYPE_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: special-config
+              key: special.type
+      envFrom:
+        - configMapRef:
+            name: env-config
+      imagePullPolicy: IfNotPresent
+  restartPolicy: Never
+  imagePullSecrets:
+    - name: ali-zhoubo
