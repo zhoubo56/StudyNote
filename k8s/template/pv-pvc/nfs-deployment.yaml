@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfs-deployment-service
+  namespace: default
+  labels:
+    app: nfs-deployment
+spec:
+  ports:
+    - port: 80
+      name: http
+      protocol: TCP
+  selector:
+    app: nfs-deployment
+  type: NodePort
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-deployment-deployment
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nfs-deployment
+  template:
+    metadata:
+      name: nfs-deployment-template
+      labels:
+        app: nfs-deployment
+    spec:
+      containers:
+        - name: nfs-deployment-container
+          image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/myapp:v1
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+          imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: ali-zhoubo
+      volumes:
+      - name: html
+        persistentVolumeClaim:
+          claimName: pvc-nfs-4
