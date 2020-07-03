@@ -19,10 +19,10 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: nfs-statefulset-deployment
+  name: nfs-statefulset-statefulset
   namespace: default
 spec:
-  serviceName: nfs-statefulset
+  serviceName: nfs-statefulset-service
   replicas: 3
   selector:
     matchLabels:
