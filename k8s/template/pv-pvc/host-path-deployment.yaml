@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nfs-deployment-deployment
+  name: host-path-deployment-deployment
   namespace: default
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nfs-deployment
+      app: host-path-deployment
   template:
     metadata:
-      name: nfs-deployment-template
+      name: host-path-deployment-template
       labels:
-        app: nfs-deployment
+        app: host-path-deployment
     spec:
       containers:
-        - name: nfs-deployment-container
+        - name: host-path-deployment-container
           image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/myapp:v1
           volumeMounts:
             - name: html
@@ -23,7 +23,9 @@ spec:
           imagePullPolicy: IfNotPresent
       imagePullSecrets:
         - name: ali-zhoubo
+      nodeSelector:
+        disktype: ssd
       volumes:
       - name: html
         persistentVolumeClaim:
-          claimName: nfs-pvc-4
+          claimName: host-path-pvc-4

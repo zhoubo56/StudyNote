@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-pvc-4
+  name: host-path-pvc-4
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: 'nfs'
+  storageClassName: 'host-path'
   resources:
     requests:
       storage: 10Gi
