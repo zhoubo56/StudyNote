@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-prefer-node-affinity-deployment
+  namespace: default
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: pod-prefer-node-affinity
+  template:
+    metadata:
+      name: pod-prefer-node-affinity-template
+      labels:
+        app: pod-prefer-node-affinity
+    spec:
+      containers:
+        - name: pod-prefer-node-affinity-container
+          image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/myapp:v1
+          imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: ali-zhoubo
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: level
+                operator: Exists
+                values:
+                - middle
+          - weight: 2
+            preference:
+              matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - k8s-node04
+                - k8s-node01

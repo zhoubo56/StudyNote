@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-selector-deployment
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-selector
+  template:
+    metadata:
+      name: node-selector-template
+      labels:
+        app: node-selector
+    spec:
+      containers:
+        - name: node-selector-container
+          image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/myapp:v1
+          imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: ali-zhoubo
+      nodeSelector:
+        disktype: ssd

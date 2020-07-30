@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-require-node-affinity-deployment
+  namespace: default
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: pod-require-node-affinity
+  template:
+    metadata:
+      name: pod-require-node-affinity-template
+      labels:
+        app: pod-require-node-affinity
+    spec:
+      containers:
+        - name: pod-require-node-affinity-container
+          image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/myapp:v1
+          imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: ali-zhoubo
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: failure-domain.beta.kubernetes.io/region
+                operator: In
+                values:
+                - chengdu
