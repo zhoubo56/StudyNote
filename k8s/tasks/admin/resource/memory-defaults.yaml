@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: default-mem-example
+
+---
+
+apiVersion: v1
+kind: LimitRange
+metadata: 
+  name: mem-limit-range
+  namespace: default-mem-example
+spec: 
+  limits: 
+  - default: 
+      memory: 521Mi
+    defaultRequest: 
+      memory: 256Mi
+    type: Container

@@ -15,6 +15,6 @@ spec:
     command: ['sh', '-c', 'until nslookup init-c-myservice; do echo waiting for init-c-myservice; sleep 2; done;']
   - name: init-mydb
     image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/busybox:v1
-    command: ['sh', '-c', 'until nslookup init-c-mydb; do echo waiting for init-c-mydb; sleep 2; done;']
+    command: ['sh', '-c', 'until nslookup init-c-mydb; do echo waiting for init-c-mydb; sleep 2; done;']  # until nc -vz mysql 3306;
   imagePullSecrets:
     - name: ali-zhoubo
