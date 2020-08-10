@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: default-cpu-demo
+  namespace: default-cpu-example
+spec:
+  containers:
+  - name : default-cpu-demo-ctr
+    image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/myapp:v1
+  imagePullSecrets:
+    - name: ali-zhoubo
