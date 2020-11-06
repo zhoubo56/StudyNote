@@ -20,13 +20,14 @@ console.log('>>>>inOrderTraversal');
 root.inOrderTraversal(printKey);
 
 console.log('>>>>preOrderTraversal');
-let root2 = new BinaryTree(root.key);
+let root2 = new SortedBinaryTree(root.key);
 let insertChild = function (node) {
     printKey(node);
     root2.addChild(node);
 }
 root.preOrderTraversal(insertChild);
-//root2.inOrderTraversal(printKey);
+console.log('>>>>root2 inOrderTraversal');
+root2.inOrderTraversal(printKey);
 
 console.log('>>>>postOrderTraversal');
 root.postOrderTraversal(printKey);
