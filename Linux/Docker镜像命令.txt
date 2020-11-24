@@ -37,6 +37,15 @@ docker run -d --name mssql -e ACCEPT_EULA=Y -e SA_PASSWORD=Pass@word -p 5433:143
 docker run -d --name elsticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:6.5.4
 
 
+**prometheus**
+docker run -d --name=prometheus -p 9090:9090 -v /data/prometheus:/etc/prometheus/ prom/prometheus:v2.22.1
+
+
+**node-exporter**
+docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter:v1.0.1
+
+
+
 **解决访问私有仓库问题**
 https://docs.docker.com/registry/insecure/#use-self-signed-certificates
 vi /etc/docker/daemon.json
