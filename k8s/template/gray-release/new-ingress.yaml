@@ -6,8 +6,8 @@ metadata:
     #canary-by-header - > canary-by-cookie - > canary-weight
     nginx.ingress.kubernetes.io/canary: "true"
     nginx.ingress.kubernetes.io/canary-by-header: "canary"
-    nginx.ingress.kubernetes.io/canary-by-header-value: "true"
-    #nginx.ingress.kubernetes.io/canary-weight: "100"
+    #nginx.ingress.kubernetes.io/canary-by-header-value: "anyword"
+    #nginx.ingress.kubernetes.io/canary-weight: "20"
 spec:
   rules:
   - host: www.zhoubo.com

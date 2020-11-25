@@ -47,7 +47,7 @@ spec:
       secret:
         secretName: mysecret
   imagePullSecrets:
-    - name: ali-zhouboV
+    - name: ali-zhoubo
 ```
 
 env
