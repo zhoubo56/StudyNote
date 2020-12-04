@@ -1,7 +1,7 @@
 
 # Install Flagger on k8s
 
-ref: https://docs.flagger.app/install/flagger-install-on-kubernetes
+ref: <https://docs.flagger.app/install/flagger-install-on-kubernetes>
 
 ## Install Flagger with Helm
 
