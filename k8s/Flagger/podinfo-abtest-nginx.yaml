@@ -1,0 +1,36 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: podinfo-default
+spec:
+  provider: nginx
+  # deployment reference
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: podinfo
+  # ingress reference
+  ingressRef:
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    name: podinfo-ingress
+  service:
+    # ClusterIP port number
+    port: 80
+    # container port number or name
+    targetPort: 8080
+  analysis:
+    # schedule interval (default 60s)
+    interval: 1m
+    # max number of failed metric checks before rollback
+    threshold: 10
+    iterations: 10
+    match:
+      # curl -H 'X-Canary: insider' http://app.example.com
+      - headers:
+          x-canary:
+            exact: "insider"
+      # curl -b 'canary=always' http://app.example.com
+      - headers:
+          cookie:
+            exact: "canary"

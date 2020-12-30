@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/service-match: 'podinfo-b: header("user-agent", /.*Firefox.*/)'
+    nginx.ingress.kubernetes.io/service-weight: ''
+  generation: 1
+  name: podinfo-ingress
+  namespace: default
+spec:
+  rules:
+    - host: bookinfo.ctcfile.com
+      http:
+        paths:
+          - backend:
+              serviceName: podinfo-a
+              servicePort: 80
+            path: /
+          - backend:
+              serviceName: podinfo-b
+              servicePort: 80
+            path: /
+status:
+  loadBalancer:
+    ingress:
+      - ip: 123.57.175.105
+

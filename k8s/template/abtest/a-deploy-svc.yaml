@@ -1,0 +1,48 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podinfo-a
+  labels:
+    app: podinfo-a
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: podinfo-a
+  template:
+    metadata:
+      labels:
+        app: podinfo-a
+    spec:
+      containers:
+      - image: registry-vpc.cn-beijing.aliyuncs.com/acs/rollouts-demo:red
+        imagePullPolicy: IfNotPresent
+        name: podinfo-a
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 250m
+            ephemeral-storage: 2Gi
+            memory: 512Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: podinfo-a
+  labels:
+    app: podinfo-a
+spec:
+  ports:
+    - port: 80
+      name: http
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: podinfo-a
+  type: ClusterIP

@@ -1,0 +1,28 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: translate-service
+  namespace: ns-monitor
+spec:
+  type: ExternalName
+  externalName: translate-service.default.svc.cluster.local
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: translateraw-service
+  namespace: ns-monitor
+spec:
+  type: ExternalName
+  externalName: translateraw-service.default.svc.cluster.local
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: fileutils
+  namespace: ns-monitor
+spec:
+  type: ExternalName
+  externalName: fileutils.default.svc.cluster.local
