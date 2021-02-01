@@ -225,7 +225,16 @@ kubeadm init --config=kubeadm-config.yaml --v=5 | tee kubeadm-init.log
 Node节点加入集群, 找到文件kubeadm-init.log中的 `kubeadm join`
 
 ```sh
-kubeadm join 192.168.132.150:6443 --token abcdef.0123456789abcdef --discovery-token-ca-cert-hash sha256:9a42e507dfcadc4947ff50c181836d3b1e3f7857b030db6bb1a5d0fe162f8e9c   --v=5
+kubeadm join 192.168.132.150:6443 --token kqodil.626upot4c7rkasqi --discovery-token-ca-cert-hash sha256:9a42e507dfcadc4947ff50c181836d3b1e3f7857b030db6bb1a5d0fe162f8e9c   --v=5
+```
+
+如果join时出现这个错误"connect: no route to host"，在master节点运行
+
+```sh
+iptables --flush
+iptables -tnat --flush
+systemctl stop containerd
+systemctl start containerd
 ```
 
 如果token过期，重新生成token
