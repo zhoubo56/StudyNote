@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core K8s Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "kubectl",
+                "pipeArgs": [ "exec", "-i", "translate-service-65f4fcdd86-hmgbr", "--" ],
+                "debuggerPath": "/root/vsdbg/vsdbg",
+                "pipeCwd": "${workspaceRoot}",
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "\\home\\vc2\\myagent\\_work\\4\\s\\Core.TranslateService": "${workspaceRoot}"
+            },
+            "justMyCode":false,
+            "logging": {
+                "engineLogging": true
+            }
+        }
+    ]
+}
