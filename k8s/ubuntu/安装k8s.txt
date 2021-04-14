@@ -1,0 +1,136 @@
+
+# 安装docker 
+sudo apt-get remove docker docker-engine docker.io containerd runc
+sudo apt-get update
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) \
+  stable"
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+sudo systemctl enable docker
+sudo systemctl start docker
+#  增加用户组
+sudo groupadd docker 
+sudo gpasswd -a $USER docker 
+newgrp docker
+
+# 增加国内镜像源
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+
+
+# 安装k8s
+关闭swap
+sudo swapoff -a
+sudo vim /etc/fstab 注释swap
+关闭防火墙
+sudo systemctl stop ufw
+sudo systemctl disable ufw
+
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main
+EOF
+sudo apt-get update
+sudo apt-get install -y kubelet=1.20.0-00 kubeadm=1.20.0-00 kubectl=1.20.0-00
+sudo apt-mark hold kubelet kubeadm kubectl
+
+sudo kubeadm init --config=kubeadm.config
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl apply -f calico.yaml
+
+#启用主控机同时作为工作节点
+kubectl taint nodes --all node-role.kubernetes.io/master-
+恢复成master节点：kubectl taint nodes --all node-role.kubernetes.io/master="":NoSchedule
+
+获取join命令：kubeadm token create --print-join-command
+
+kubeadm join 192.168.0.55:6443 --token 97iqbm.w1uhbuplmiemaivv \
+    --discovery-token-ca-cert-hash sha256:a871dd4b51bc5fc05a3952e9745b31f8b09f47009f78643f5b7f57150c5a4687
+
+卸载k8s
+kubeadm reset
+sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
+sudo apt-get autoremove  
+sudo rm -rf ~/.kube
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+安装docker（centos）
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+
+sudo yum install -y yum-utils
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+sudo yum install docker-ce docker-ce-cli containerd.io
+
+sudo systemctl enable docker
+sudo systemctl start docker
+#  增加用户组
+sudo groupadd docker 
+sudo gpasswd -a $USER docker 
+newgrp docker
+
+安装k8s（centos）
+swapoff -a
+sed -i '/swap/s/^/#/' /etc/fstab
+systemctl disable firmwalld
+
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF
+setenforce 0
+yum install -y kubelet kubeadm kubectl
+systemctl enable kubelet && systemctl start kubelet
+
+sudo kubeadm init --config=kubeadm.config
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+安装网络
+docker load --input calico.tar
+kubectl apply -f calico.yaml
+
+master作为node运行
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
