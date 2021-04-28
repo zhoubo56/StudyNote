@@ -1,3 +1,7 @@
+# 修改计算机名称
+sudo vim /etc/cloud/cloud.cfg
+把preserve_hostname的值改为: false
+sudo hostnamectl set-hostname xxx
 
 # 安装docker 
 sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -41,7 +45,7 @@ sudo systemctl restart docker
 # 安装k8s
 关闭swap
 sudo swapoff -a
-sudo vim /etc/fstab 注释swap
+sudo vim /etc/fstab 注释掉swap那一行
 关闭防火墙
 sudo systemctl stop ufw
 sudo systemctl disable ufw

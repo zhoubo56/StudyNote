@@ -1,22 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment-deployment
+  name: nginx-service-deployment
   namespace: default
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx-deployment
+      app: nginx-service
   template:
     metadata:
-      name: nginx-deployment-template
+      name: nginx-service-template
       labels:
-        app: nginx-deployment
+        app: nginx-service
     spec:
       containers:
-        - name: nginx-deployment-container
+        - name: nginx-service-container
           image: registry.cn-hangzhou.aliyuncs.com/zhoubo56/myapp:v1
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: 10Mi
+              cpu: 10m
+            limits:
+              memory: 30Mi
+              cpu: 30m
       imagePullSecrets:
         - name: ali-zhoubo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: default
+  labels:
+    app: nginx-service
+spec:
+  ports:
+    - port: 80
+      name: http
+      nodePort: 31080
+      protocol: TCP
+  selector:
+    app: nginx-service
+  type: NodePort

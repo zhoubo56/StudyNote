@@ -13,8 +13,8 @@ Wiki: <https://en.wikipedia.org/wiki/Network_File_System>
 yum install -y nfs-common nfs-utils rpcbind
 
 mkdir /nfsdata{1..4}
-chmod 777 /nfsdata{1..4}
-chown nfsnobody /nfsdata{1..4}
+# chmod 777 /nfsdata{1..4}
+chown -R nfsnobody:nfsnobody /nfsdata{1..4}
 
 echo '/nfsdata1 *(rw,no_root_squash,no_all_squash,sync)' >> /etc/exports
 echo '/nfsdata2 *(rw,no_root_squash,no_all_squash,sync)' >> /etc/exports
