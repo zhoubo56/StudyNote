@@ -1,0 +1,15 @@
+server:
+  port: 8888
+
+self:
+  custom:
+    config:
+      sdkSecret: abc123
+      port: ${server.port}
+
+spring:
+  banner:
+    location: classpath:banner/logo.txt
+#    image:
+#      location: classpath:banner/logo.jpg
+#      pixelmode: TEXT
