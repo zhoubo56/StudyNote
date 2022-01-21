@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -31,11 +32,14 @@ public class StudentController {
         logger.info("getAll -> name:{}", name);
         return ResponseEntity.ok(students);
     }
-    
+
     @PostMapping
     public ResponseEntity post(@RequestBody Student student,
                                @RequestHeader("token") String token) throws URISyntaxException {
         logger.info("post -> token:{}, student.name:{}", token, student.name);
+        if (!StringUtils.hasText(student.name)) {
+            return ResponseEntity.noContent().build();
+        }
         students.add(student);
         var id = students.size() - 1;
         var uri = new URI("students/" + id);

@@ -1,5 +1,6 @@
 package com.imooc.controller;
 
+import com.imooc.exception.CustomException;
 import com.imooc.pojo.MyConfig;
 import com.imooc.pojo.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,11 @@ public class HelloController {
     @GetMapping("/sdkSecret")
     public String getSdkSecret() {
         return sdkSecret + "\t" + port;
+    }
+
+    @GetMapping("/error")
+    public String error() throws CustomException {
+        throw new CustomException("custom exception");
+//        return "";
     }
 }
