@@ -3,6 +3,7 @@ package com.imooc.controller;
 import com.imooc.exception.CustomException;
 import com.imooc.pojo.MyConfig;
 import com.imooc.pojo.Student;
+import com.imooc.utils.MyAsyncTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,15 @@ public class HelloController {
     @GetMapping("/sdkSecret")
     public String getSdkSecret() {
         return sdkSecret + "\t" + port;
+    }
+
+    @Autowired
+    private MyAsyncTask myAsyncTask;
+
+    @PostMapping("/startTask")
+    public String startTask() {
+        myAsyncTask.publishMsg();
+        return "success";
     }
 
     @GetMapping("/error")
