@@ -6,6 +6,12 @@ import org.springframework.web.bind.annotation.*;
 @ControllerAdvice
 public class GraceExceptionHandler {
 
+//    @ExceptionHandler
+//    @ResponseBody
+//    public ResponseEntity Exception(Exception e) {
+//        return ResponseEntity.internalServerError().body(e.getMessage());
+//    }
+
     @ExceptionHandler(CustomException.class)
     @ResponseBody
     public ResponseEntity CustomException(CustomException e) {
