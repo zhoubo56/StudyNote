@@ -1,20 +1,16 @@
-package com.imooc.pojo;
+package com.imooc.pojo.dto;
 
-import javax.persistence.Id;
 
-public class Teacher {
-    @Id
-    private String id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
+public class TeacherDto {
+    @NotBlank
     private String name;
+    @Min(18)
+    @Max(value = 60, message = "您该退休啦~")
     private Integer age;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

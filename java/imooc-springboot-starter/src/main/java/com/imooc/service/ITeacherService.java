@@ -25,6 +25,12 @@ public interface ITeacherService {
     List<Teacher> getAll();
 
     /**
+     * 更新Teacher到数据库
+     * @param teacher 老师实体
+     */
+    void update(Teacher teacher);
+
+    /**
      * 删除指定id的Teacher
      * @param id 老师id
      */

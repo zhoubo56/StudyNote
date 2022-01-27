@@ -29,6 +29,11 @@ public class TeacherService implements ITeacherService {
     }
 
     @Override
+    public void update(Teacher teacher) {
+        teacherMapper.updateByPrimaryKey(teacher);
+    }
+
+    @Override
     public void delete(String id) {
         teacherMapper.deleteByPrimaryKey(id);
     }

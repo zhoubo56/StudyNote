@@ -76,6 +76,12 @@
 			<version>1.4.1</version>
 		</dependency>
 
+		<!-- hibernate校验 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
